@@ -1,0 +1,107 @@
+# 🎯 Click Fast!
+
+**Click Fast!** est une application web de réflexes et de précision développée dans le cadre du parcours **Développement Web & Full Stack — YouCode Maroc 2026/2027**.
+
+Le joueur doit cliquer sur une cible qui apparaît à différentes positions dans une arène de jeu. Le but est de réaliser le meilleur score dans un temps limité.
+
+## 🚀 Fonctionnalités
+
+* 🎮 3 modes de jeu :
+
+  * **Classique**
+  * **Précision**
+  * **Défi** *(bonus)*
+* ⏱️ Durées disponibles : **10, 20 ou 30 secondes**
+* 🎯 3 niveaux de difficulté :
+
+  * Facile — 80×80 px
+  * Moyenne — 60×60 px
+  * Difficile — 40×40 px
+* 🏆 Records indépendants selon le mode, la difficulté et la durée
+* 📊 Calcul de la précision en mode Précision
+* 📜 Historique des **20 dernières parties**
+* 💾 Sauvegarde des données avec `localStorage`
+* 📱 Interface responsive jusqu'à **360 px**
+* ⚡ Application SPA sans rechargement de page
+
+## 🛠️ Technologies
+
+* HTML5
+* CSS3
+* JavaScript Vanilla
+* DOM API
+* `localStorage`
+
+Aucun framework ou bibliothèque externe n'est nécessaire.
+
+## 🎮 Comment jouer ?
+
+1. Entrez votre pseudo.
+2. Choisissez le mode de jeu.
+3. Sélectionnez la durée.
+4. Choisissez la difficulté.
+5. Lancez la partie.
+6. Cliquez sur la cible le plus rapidement possible !
+7. Consultez votre score et votre précision à la fin de la partie.
+
+En mode **Précision**, les clics en dehors de la cible sont comptabilisés comme des tirs ratés.
+
+## 📐 Arène
+
+L'arène de jeu mesure **500×500 px** sur ordinateur et s'adapte aux petits écrans.
+
+La cible apparaît aléatoirement dans l'arène et se déplace après chaque clic réussi.
+
+## 💾 Stockage local
+
+Les données sont sauvegardées dans le navigateur grâce à `localStorage`.
+
+| Clé                  | Données                |
+| -------------------- | ---------------------- |
+| `clickFast.settings` | Paramètres du joueur   |
+| `clickFast.records`  | Meilleurs scores       |
+| `clickFast.history`  | Historique des parties |
+
+L'historique est limité aux **20 dernières sessions**.
+
+## 📊 Précision
+
+En mode Précision, le taux de précision est calculé à partir des clics réussis et des clics ratés :
+
+**Précision = Hits / (Hits + Misses) × 100**
+
+Si aucun clic n'est effectué, la précision est considérée comme **100 %** selon la spécification.
+
+## 🗺️ Architecture
+
+L'application fonctionne comme une **Single Page Application (SPA)** avec plusieurs vues :
+
+* `Home` — accueil
+* `Config` — configuration de la partie
+* `Game` — arène de jeu
+* `Results` — résultats
+* `History` — historique
+
+Une seule vue est active à la fois et aucun rechargement global de la page n'est nécessaire.
+
+## 📅 Roadmap
+
+* [x] Documentation et planification
+* [ ] Création des vues HTML/CSS
+* [ ] Mode Classique
+* [ ] Configuration de la partie
+* [ ] Mode Précision
+* [ ] Système de records
+* [ ] Historique des sessions
+* [ ] Mode Défi
+* [ ] Responsive design
+* [ ] Accessibilité
+* [ ] Déploiement
+
+## 👨‍💻 Projet
+
+Projet réalisé individuellement dans le cadre de **YouCode Maroc — Promotion 2026/2027**.
+
+**Projet : Click Fast!**
+**Sprint : 1**
+**Année : 2026/2027**
