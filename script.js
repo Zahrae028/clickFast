@@ -31,24 +31,92 @@ function showView(view) {
     view.classList.add("active");
 };
 
-startButton.addEventListener('click', ()=>{
+startButton.addEventListener('click', () => {
     showView(configView);
 })
-playButton.addEventListener('click',()=>{
+playButton.addEventListener('click', () => {
     showView(gameView);
 })
-historyButton.addEventListener('click', ()=>{
+historyButton.addEventListener('click', () => {
     showView(historyView);
 })
-backHomeButton.addEventListener('click', ()=>{
+backHomeButton.addEventListener('click', () => {
     showView(homeView);
 })
-replayButton.addEventListener('click' , ()=>{
+replayButton.addEventListener('click', () => {
     showView(gameView);
 })
-homeButton.addEventListener('click', ()=>{
+homeButton.addEventListener('click', () => {
     showView(homeView);
 })
-historyHomeButton.addEventListener('click', ()=>{
-    showView(historyView);
+historyHomeButton.addEventListener('click', () => {
+    showView(homeView);
 })
+
+let selectedMode = "classic";
+
+const modeButtons = document.querySelectorAll("[data-mode]");
+
+modeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        selectedMode = button.dataset.mode;
+
+        modeButtons.forEach((btn) => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+    });
+});
+
+let selectedDuration = "10";
+
+const durationButtons = document.querySelectorAll("[data-duration]");
+
+durationButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        selectedDuration = button.dataset.duration;
+
+        durationButtons.forEach((btn) => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+    });
+});
+
+let selectedDifficulty = "medium";
+
+const difficultyButtons = document.querySelectorAll("[data-difficulty]");
+
+difficultyButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        selectedDifficulty = button.dataset.difficulty;
+
+        difficultyButtons.forEach((btn) => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+    });
+});
+
+let score = 0;
+let misses = 0;
+let timeLeft = 0;
+
+function startGame() {
+    score = 0;
+    misses = 0;
+    timeLeft = Number(selectedDuration);
+
+    scoreDisplay.textContent = score;
+    timeDisplay.textContent = timeLeft;
+    missesDisplay.textContent = misses;
+    accuracyDisplay.textContent = "100%";
+}
+function moveTarget() {
+    const areaWidth = gameArea.clientWidth;
+    const areaHeight = gameArea.clientHeight;
+    const targetSize = 60;
+}
