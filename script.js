@@ -20,6 +20,35 @@ const timeDisplay = document.getElementById("time");
 const missesDisplay = document.getElementById("misses");
 const accuracyDisplay = document.getElementById("accuracy");
 
+const views = [homeView, configView, gameView, resultsView, historyView];
+
+
 function showView(view) {
-    
-}
+    views.forEach(currentPage => {
+        currentPage.classList.remove("active")
+    });
+
+    view.classList.add("active");
+};
+
+startButton.addEventListener('click', ()=>{
+    showView(configView);
+})
+playButton.addEventListener('click',()=>{
+    showView(gameView);
+})
+historyButton.addEventListener('click', ()=>{
+    showView(historyView);
+})
+backHomeButton.addEventListener('click', ()=>{
+    showView(homeView);
+})
+replayButton.addEventListener('click' , ()=>{
+    showView(gameView);
+})
+homeButton.addEventListener('click', ()=>{
+    showView(homeView);
+})
+historyHomeButton.addEventListener('click', ()=>{
+    showView(historyView);
+})
