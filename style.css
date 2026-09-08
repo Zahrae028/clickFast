@@ -1,0 +1,180 @@
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
+
+
+/* APP */
+
+.app {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+
+/* VIEWS */
+
+.view {
+    display: none;
+    text-align: center;
+}
+
+.view.active {
+    display: block;
+}
+
+
+/* TITLES */
+
+h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 25px;
+}
+
+h3 {
+    margin: 20px 0 10px;
+}
+
+
+/* BUTTONS */
+
+button {
+    border: none;
+    padding: 12px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #222;
+    color: white;
+    font-size: 16px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+
+/* INPUT */
+
+input {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+
+/* OPTIONS */
+
+.options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.option {
+    background: #ddd;
+    color: #222;
+}
+
+.option.active {
+    background: #222;
+    color: white;
+}
+
+
+/* GAME HUD */
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+
+/* GAME AREA */
+
+#game-area {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    max-width: 100%;
+    margin: auto;
+    border: 2px solid #222;
+    background: white;
+    overflow: hidden;
+}
+
+
+/* TARGET */
+
+#target {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: #222;
+}
+
+
+/* HISTORY */
+
+#history-list {
+    margin: 20px 0;
+}
+
+.history-item {
+    padding: 15px;
+    margin: 10px 0;
+    background: white;
+    border-radius: 8px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+
+    .app {
+        padding: 20px 10px;
+    }
+
+    h1 {
+        font-size: 38px;
+    }
+
+    #game-area {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
+
+    .hud {
+        justify-content: center;
+    }
+}
+
