@@ -1,180 +1,507 @@
-/* RESET */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+/* ===========================================================================
+   ELEGANT WHIMSICAL DIVINE DESIGN SYSTEM
+   =========================================================================== */
+
+:root {
+    /* Core palette */
+    --bg-dark: #0a0714;                       /* deep midnight */
+    --bg-card: rgba(18, 12, 32, 0.85);        /* glass card */
+    --bg-card-inner: rgba(12, 8, 24, 0.9);
+    
+    --gold-primary: #fadb5f;                  /* warm gold */
+    --gold-light: #ffe58f;
+    --gold-dark: #d4b106;
+    --gold-glow: rgba(250, 219, 95, 0.35);
+    
+    --purple-mystic: #9254de;                /* subtle mystic */
+    --lavender-soft: #d3ade6;
+    
+    --text-main: #f9f0ff;
+    --text-muted: #b3a1cf;
+    --text-dim: #796699;
+    
+    --border-gold: rgba(250, 219, 95, 0.3);
+    
+    --font-title: 'Cinzel', serif;
+    --font-ui: 'Plus Jakarta Sans', sans-serif;
+}
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #222;
+html, body {
+    min-height: 100vh;
+    font-family: var(--font-ui);
+    background-color: var(--bg-dark);
+    /* Celestial nebula layers – softened */
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(146,84,222,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(250,219,95,0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    overflow-x: hidden;
+    position: relative;
 }
 
+/* ---------------------------------------------------------------------------
+   Scrollbar – subtle gold tint
+   --------------------------------------------------------------------------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(10,7,20,0.8); }
+::-webkit-scrollbar-thumb { background: var(--border-gold); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
 
-/* APP */
-
+/* ---------------------------------------------------------------------------
+   APP CONTAINER – glassy tarot card
+   --------------------------------------------------------------------------- */
 .app {
     width: 100%;
-    max-width: 700px;
+    max-width: 840px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 38px 34px;
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border-gold);
+    border-radius: 20px;
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.9),
+        0 0 30px rgba(146,84,222,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-
-/* VIEWS */
-
-.view {
-    display: none;
-    text-align: center;
+.app::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed rgba(250,219,95,0.25);
+    border-radius: 14px;
+    pointer-events: none;
 }
 
-.view.active {
-    display: block;
+.app::after {
+    content: '✧ ☽ ✧';
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 13px;
+    color: var(--gold-primary);
+    letter-spacing: 3px;
+    opacity: 0.85;
 }
 
+/* ---------------------------------------------------------------------------
+   VIEW TRANSITIONS
+   --------------------------------------------------------------------------- */
+.view { display: none; text-align: center; }
+.view.active { display: block; animation: viewFade 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
+@keyframes viewFade {
+    from { opacity:0; transform: translateY(8px) scale(0.99); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+}
 
-/* TITLES */
-
+/* ---------------------------------------------------------------------------
+   TYPOGRAPHY
+   --------------------------------------------------------------------------- */
 h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
+    font-family: var(--font-title);
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 60%, var(--gold-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(250,219,95,0.4));
+    margin-bottom: 8px;
+    line-height: 1.2;
 }
 
 h2 {
-    margin-bottom: 25px;
+    font-family: var(--font-title);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '✦';
+    display: block;
+    font-size: 11px;
+    color: var(--gold-primary);
+    margin-top: 4px;
+    letter-spacing: 5px;
 }
 
 h3 {
-    margin: 20px 0 10px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--lavender-soft);
+    margin: 18px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
+h3::before, h3::after { content: '✦'; color: var(--gold-primary); font-size: 10px; }
 
-/* BUTTONS */
+p { font-size: 16px; color: var(--text-muted); margin-bottom: 22px; }
 
+label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gold-primary);
+    margin-bottom: 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   BUTTONS
+   --------------------------------------------------------------------------- */
 button {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     border: none;
-    padding: 12px 20px;
-    margin: 5px;
-    border-radius: 8px;
+    padding: 12px 24px;
+    margin: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    background: #222;
-    color: white;
-    font-size: 16px;
+    background: rgba(22,14,38,0.8);
+    color: var(--gold-light);
+    border: 1px solid var(--border-gold);
+    transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    outline: none;
+    overflow: hidden;
 }
 
 button:hover {
-    opacity: 0.8;
+    background: rgba(146,84,222,0.25);
+    border-color: var(--gold-primary);
+    color: #ffffff;
+    box-shadow: 0 0 18px var(--gold-glow);
+    transform: translateY(-2px);
 }
 
+button:active { transform: translateY(0); }
 
-/* INPUT */
+/* Shimmer effect */
+button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: skewX(-20deg);
+}
+button:hover::before { left: 140%; transition: all 0.6s ease; }
 
-input {
+/* Primary action buttons */
+#btn-start, #btn-play, #btn-replay {
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--purple-mystic) 100%);
+    color: #0c0816;
+    border: 1px solid var(--gold-light);
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    box-shadow: 0 6px 20px -4px var(--gold-glow);
+    margin-top: 8px;
+}
+#btn-start:hover, #btn-play:hover, #btn-replay:hover {
+    background: linear-gradient(135deg, var(--gold-light) 0%, #a855f7 100%);
+    color: #000000;
+    box-shadow: 0 8px 25px -4px rgba(250,219,95,0.7);
+    transform: translateY(-2px);
+}
+
+#btn-clear-history {
+    background: rgba(255,77,79,0.1);
+    border-color: rgba(255,77,79,0.3);
+    color: #ff7875;
+}
+#btn-clear-history:hover {
+    background: rgba(255,77,79,0.2);
+    border-color: #ff4d4f;
+    color: #ffffff;
+}
+
+/* ---------------------------------------------------------------------------
+   INPUT FIELDS
+   --------------------------------------------------------------------------- */
+input[type="text"] {
     display: block;
     width: 100%;
-    max-width: 300px;
-    margin: 10px auto;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+    max-width: 320px;
+    margin: 8px auto 16px;
+    padding: 12px 16px;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold-light);
+    text-align: center;
+    outline: none;
+    transition: all 0.2s ease;
 }
+input[type="text"]:focus {
+    border-color: var(--gold-light);
+    box-shadow: 0 0 16px var(--gold-glow);
+}
+input[type="text"]::placeholder { color: var(--text-dim); }
 
-
-/* OPTIONS */
-
+/* ---------------------------------------------------------------------------
+   CONFIG OPTIONS
+   --------------------------------------------------------------------------- */
 .options {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 8px;
+    margin-bottom: 10px;
 }
-
 .option {
-    background: #ddd;
-    color: #222;
+    background: var(--bg-card-inner);
+    border: 1px solid rgba(250,219,95,0.15);
+    color: var(--text-muted);
+    padding: 8px 18px;
+    font-size: 13px;
+    border-radius: 8px;
 }
-
+.option:hover { border-color: var(--gold-primary); color: var(--text-main); }
 .option.active {
-    background: #222;
-    color: white;
+    background: linear-gradient(135deg, rgba(250,219,95,0.15) 0%, rgba(146,84,222,0.25) 100%);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-light);
+    box-shadow: 0 0 12px rgba(250,219,95,0.25);
 }
 
-
-/* GAME HUD */
-
+/* ---------------------------------------------------------------------------
+   GAME HUD
+   --------------------------------------------------------------------------- */
 .hud {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 18px;
 }
+.hud span {
+    flex: 1;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+.hud strong {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-top: 4px;
+    text-shadow: 0 0 10px var(--gold-glow);
+}
+.hud span:nth-child(3) strong { color: var(--purple-mystic); }
+.hud span:nth-child(4) strong { color: var(--lavender-soft); }
 
-
-/* GAME AREA */
-
+/* ---------------------------------------------------------------------------
+   GAME ARENA
+   --------------------------------------------------------------------------- */
 #game-area {
     position: relative;
-    width: 500px;
-    height: 500px;
-    max-width: 100%;
-    margin: auto;
-    border: 2px solid #222;
-    background: white;
+    width: 100%;
+    height: 440px;
+    max-width: 780px;
+    margin: 0 auto;
+    background-color: #06040d;
+    background-image:
+        radial-gradient(circle at center, rgba(146,84,222,0.12) 0%, transparent 65%),
+        linear-gradient(rgba(250,219,95,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(250,219,95,0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+    border: 1px solid var(--gold-primary);
+    border-radius: 16px;
     overflow: hidden;
+    cursor: crosshair;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.8),
+        inset 0 0 30px rgba(0,0,0,0.7);
+}
+/* Central crosshair */
+#game-area::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 80px; height: 80px;
+    transform: translate(-50%,-50%);
+    border: 1px solid rgba(250,219,95,0.2);
+    border-radius: 50%;
+    pointer-events: none;
+}
+#game-area::after {
+    content: '✦';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 12px;
+    color: rgba(250,219,95,0.4);
+    pointer-events: none;
 }
 
-
-/* TARGET */
-
+/* ---------------------------------------------------------------------------
+   TARGET – minimal elegant star
+   --------------------------------------------------------------------------- */
 #target {
     position: absolute;
     width: 60px;
     height: 60px;
-    margin: 0;
-    padding: 0;
+    left: 0;
+    top: 0;
+    cursor: crosshair;
     border-radius: 50%;
-    background: #222;
+    background: none;
+    border: 2px solid rgba(255,255,255,0.95);
+    box-shadow: 0 0 24px rgba(255,215,0,1), inset 0 0 12px rgba(255,215,0,0.8);
+    animation: pulseRim 2.5s ease-in-out infinite;
+    transition: transform 0.07s ease-out;
 }
 
 
-/* HISTORY */
+#target:hover {
+    transform: scale(1.12);
+}
+#target:active {
+    animation: clickBurst 0.2s forwards;
+}
+@keyframes rotateStar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+@keyframes pulseRim {
+    0%, 100% { box-shadow: 0 0 12px rgba(255,215,0,0.3), inset 0 0 6px rgba(255,215,0,0.2); }
+    50% { box-shadow: 0 0 20px rgba(255,215,0,0.5), inset 0 0 10px rgba(255,215,0,0.3); }
+}
+@keyframes clickBurst {
+    0% {
+        transform: scale(1.12);
+        box-shadow: 0 0 20px rgba(255,215,0,0.6);
+    }
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 4px rgba(255,215,0,0.3);
+    }
+}
+@keyframes haloPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
 
+/* ---------------------------------------------------------------------------
+   RESULTS VIEW
+   --------------------------------------------------------------------------- */
+#view-results p {
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-gold);
+    border-radius: 12px;
+    padding: 14px 22px;
+    margin: 12px auto;
+    max-width: 380px;
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#view-results p strong {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+}
+#view-results p:nth-of-type(2) strong { color: var(--purple-mystic); }
+#view-results p:nth-of-type(3) strong { color: var(--lavender-soft); }
+
+/* ---------------------------------------------------------------------------
+   HISTORY VIEW
+   --------------------------------------------------------------------------- */
 #history-list {
-    margin: 20px 0;
+    margin: 18px 0;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
-
 .history-item {
-    padding: 15px;
-    margin: 10px 0;
-    background: white;
-    border-radius: 8px;
+    padding: 12px 18px;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-gold);
+    border-left: 3px solid var(--gold-primary);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.history-item:hover { background: rgba(146,84,222,0.15); }
 
-
-/* MOBILE */
-
-@media (max-width: 520px) {
-
-    .app {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 38px;
-    }
-
-    #game-area {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        height: auto;
-    }
-
-    .hud {
-        justify-content: center;
-    }
+/* ---------------------------------------------------------------------------
+   RESPONSIVE DESIGN
+   --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .app { padding: 24px 18px; border-radius: 16px; }
+    #game-area { height: 380px; }
 }
-
+@media (max-width: 540px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 20px; }
+    #game-area { width:100%; height:340px; }
+    .hud { display: grid; grid-template-columns:1fr 1fr; gap:8px; }
+    button { padding: 10px 16px; font-size:12px; }
+    #btn-start, #btn-play, #btn-replay { padding:12px 24px; font-size:14px; }
+}
