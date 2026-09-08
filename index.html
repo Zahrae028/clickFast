@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Fast!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- HOME -->
+        <section id="view-home" class="view active">
+            <h1>Click Fast!</h1>
+            <p>Test your reflexes and precision.</p>
+
+            <button id="btn-start">Start Game</button>
+            <button id="btn-history">History</button>
+        </section>
+
+
+        <!-- CONFIGURATION -->
+        <section id="view-config" class="view">
+            <h2>Game Configuration</h2>
+
+            <label for="username">Username</label>
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                minlength="2"
+                maxlength="20"
+            >
+
+            <h3>Game Mode</h3>
+            <div class="options">
+                <button class="option active" data-mode="classic">
+                    Classic
+                </button>
+
+                <button class="option" data-mode="precision">
+                    Precision
+                </button>
+
+                <button class="option" data-mode="challenge">
+                    Challenge
+                </button>
+            </div>
+
+            <h3>Duration</h3>
+            <div class="options">
+                <button class="option active" data-duration="10">10s</button>
+                <button class="option" data-duration="20">20s</button>
+                <button class="option" data-duration="30">30s</button>
+            </div>
+
+            <h3>Difficulty</h3>
+            <div class="options">
+                <button class="option" data-difficulty="easy">
+                    Easy
+                </button>
+
+                <button class="option active" data-difficulty="medium">
+                    Medium
+                </button>
+
+                <button class="option" data-difficulty="hard">
+                    Hard
+                </button>
+            </div>
+
+            <button id="btn-play">Play</button>
+            <button id="btn-back-home">Back</button>
+        </section>
+
+
+        <!-- GAME -->
+        <section id="view-game" class="view">
+            <div class="hud">
+                <span>Time: <strong id="time">10</strong></span>
+                <span>Score: <strong id="score">0</strong></span>
+                <span>Misses: <strong id="misses">0</strong></span>
+                <span>Accuracy: <strong id="accuracy">100%</strong></span>
+            </div>
+
+            <div id="game-area">
+                <button id="target" aria-label="Target"></button>
+            </div>
+        </section>
+
+
+        <!-- RESULTS -->
+        <section id="view-results" class="view">
+            <h2>Game Over!</h2>
+
+            <p>Score: <strong id="final-score">0</strong></p>
+            <p>Misses: <strong id="final-misses">0</strong></p>
+            <p>Accuracy: <strong id="final-accuracy">100%</strong></p>
+
+            <button id="btn-replay">Play Again</button>
+            <button id="btn-home">Home</button>
+        </section>
+
+
+        <!-- HISTORY -->
+        <section id="view-history" class="view">
+            <h2>History</h2>
+
+            <div id="history-list">
+                <!-- JS will add history here -->
+            </div>
+
+            <button id="btn-clear-history">Clear History</button>
+            <button id="btn-history-home">Back Home</button>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
