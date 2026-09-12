@@ -48,7 +48,7 @@ startButton.addEventListener("click", () => {
 playButton.addEventListener("click", () => {
     username = usernameInput.value.trim();
 
-     if (username.length < 2 || username.length > 20) {
+    if (username.length < 2 || username.length > 20) {
         alert("Username must be between 2 and 20 characters.");
         return;
     }
@@ -141,40 +141,63 @@ let username = "";
 let timer;
 let challengeTimer;
 
+let endTime;
+let gameEnded = false;
+
 
 function startGame() {
     score = 0;
     misses = 0;
+    gameEnded = false;
 
     clearInterval(timer);
     clearTimeout(challengeTimer);
 
     timeLeft = Number(selectedDuration);
 
+   
+    endTime = Date.now() + Number(selectedDuration) * 1000;
+
     scoreDisplay.textContent = score;
     missesDisplay.textContent = misses;
     timeDisplay.textContent = timeLeft;
-    accuracyDisplay.textContent = "100%";
+
+    if (selectedMode === "classic") {
+        accuracyDisplay.textContent = "Not measured";
+        missesDisplay.textContent = "Not measured";
+    } else {
+        accuracyDisplay.textContent = "100%";
+        missesDisplay.textContent = misses;
+    }
 
     setTargetSize();
     moveTarget();
 
     timer = setInterval(() => {
-        timeLeft--;
 
-        timeDisplay.textContent = timeLeft;
+        const remainingTime = endTime - Date.now();
 
-        if (timeLeft <= 0) {
+        if (remainingTime <= 0) {
+            timeLeft = 0;
+            timeDisplay.textContent = 0;
+
             clearInterval(timer);
             clearTimeout(challengeTimer);
+
             endGame();
+            return;
         }
-    }, 1000);
+
+        timeLeft = Math.ceil(remainingTime / 1000);
+        timeDisplay.textContent = timeLeft;
+
+    }, 100);
 
     if (selectedMode === "challenge") {
         startChallengeTimer();
     }
 }
+
 
 function saveSettings() {
     const settings = {
@@ -186,9 +209,12 @@ function saveSettings() {
 
     localStorage.setItem("clickFast.settings", JSON.stringify(settings));
 }
+
+
 function getRecordKey() {
     return `${selectedMode}_${selectedDifficulty}_${selectedDuration}`;
 }
+
 
 function saveRecord() {
     const records = JSON.parse(localStorage.getItem("clickFast.records")) || {};
@@ -204,14 +230,31 @@ function saveRecord() {
     return false;
 }
 
+
 function endGame() {
+
+    if (gameEnded) {
+        return;
+    }
+
+    gameEnded = true;
+
+    clearInterval(timer);
+    clearTimeout(challengeTimer);
+
     showView(resultsView);
 
     finalScore.textContent = score;
-    saveRecord();
-    finalMisses.textContent = misses;
-    finalAccuracy.textContent = calculateAccuracy();
 
+    saveRecord();
+
+    if (selectedMode === "classic") {
+        finalMisses.textContent = "Not measured";
+        finalAccuracy.textContent = "Not measured";
+    } else {
+        finalMisses.textContent = misses;
+        finalAccuracy.textContent = calculateAccuracy();
+    }
 
     saveHistory();
 }
@@ -261,12 +304,21 @@ function moveTarget() {
 
 
 target.addEventListener("click", (event) => {
+
     event.stopPropagation();
+
+    if (Date.now() >= endTime || gameEnded) {
+        endGame();
+        return;
+    }
 
     score++;
 
     scoreDisplay.textContent = score;
-    accuracyDisplay.textContent = calculateAccuracy();
+
+    if (selectedMode !== "classic") {
+        accuracyDisplay.textContent = calculateAccuracy();
+    }
 
     moveTarget();
 
@@ -277,6 +329,11 @@ target.addEventListener("click", (event) => {
 
 
 gameArea.addEventListener("click", () => {
+
+    if (Date.now() >= endTime || gameEnded) {
+        endGame();
+        return;
+    }
 
     if (selectedMode === "precision") {
         misses++;
@@ -292,8 +349,14 @@ function startChallengeTimer() {
     clearTimeout(challengeTimer);
 
     challengeTimer = setTimeout(() => {
+
+        if (Date.now() >= endTime || gameEnded) {
+            return;
+        }
+
         moveTarget();
         startChallengeTimer();
+
     }, 1000);
 }
 
@@ -303,8 +366,10 @@ function saveHistory() {
 
     const game = {
         score: score,
-        misses: misses,
-        accuracy: calculateAccuracy(),
+        misses: selectedMode === "classic" ? "Not measured" : misses,
+        accuracy: selectedMode === "classic"
+            ? "Not measured"
+            : calculateAccuracy(),
         mode: selectedMode,
         difficulty: selectedDifficulty,
         duration: selectedDuration
