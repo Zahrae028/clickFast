@@ -38,14 +38,39 @@
 html, body {
     min-height: 100vh;
     font-family: var(--font-ui);
-    background-color: var(--bg-dark);
-    /* Celestial nebula layers – softened */
+    background-color: #0b0810;
+
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(146,84,222,0.12) 0%, transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(250,219,95,0.08) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
-    background-size: cover;
+        radial-gradient(
+            ellipse at 15% 15%,
+            rgba(118, 76, 155, 0.28) 0%,
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 85% 20%,
+            rgba(190, 154, 92, 0.12) 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 70% 90%,
+            rgba(91, 54, 130, 0.22) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            ellipse at 25% 75%,
+            rgba(48, 28, 63, 0.35) 0%,
+            transparent 50%
+        ),
+        linear-gradient(
+            125deg,
+            #09070d 0%,
+            #15101d 45%,
+            #0b0810 100%
+        );
+
+    background-size: 140% 140%;
     background-attachment: fixed;
+
     color: var(--text-main);
     display: flex;
     align-items: center;
@@ -54,6 +79,27 @@ html, body {
     overflow-x: hidden;
     position: relative;
 }
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.55;
+
+    background:
+        /* tiny glowing stars */
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 14%, rgba(220,190,255,.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 72%, rgba(255,240,200,.8) 0 1px, transparent 2px),
+
+        /* delicate botanical curves */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23d8bfff' stroke-width='0.7' opacity='0.38'%3E%3Cpath d='M-40 650 C100 500 40 300 230 250 S430 100 380 -30'/%3E%3Cpath d='M120 800 C280 650 180 480 360 390 S600 350 760 170'/%3E%3Cpath d='M530 850 C450 680 580 590 520 430 S650 180 850 120'/%3E%3Cpath d='M40 350 C160 280 190 390 270 330 S360 180 470 210'/%3E%3C/g%3E%3Cg fill='none' stroke='%23f3d9ff' stroke-width='0.55' opacity='0.32'%3E%3Cpath d='M90 540 C130 500 160 470 190 420'/%3E%3Cpath d='M350 390 C390 350 420 310 450 270'/%3E%3Cpath d='M570 590 C620 550 650 500 670 450'/%3E%3C/g%3E%3C/svg%3E");
+
+    background-size: auto, auto, auto, 900px 900px;
+    filter: drop-shadow(0 0 5px rgba(210,170,255,.45));
+}
+
 
 /* ---------------------------------------------------------------------------
    Scrollbar – subtle gold tint
