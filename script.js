@@ -11,6 +11,7 @@ const backHomeButton = document.getElementById("btn-back-home");
 const replayButton = document.getElementById("btn-replay");
 const homeButton = document.getElementById("btn-home");
 const historyHomeButton = document.getElementById("btn-history-home");
+const clearHistoryButton = document.getElementById("btn-clear-history");
 
 const gameArea = document.getElementById("game-area");
 const target = document.getElementById("target");
@@ -20,38 +21,66 @@ const timeDisplay = document.getElementById("time");
 const missesDisplay = document.getElementById("misses");
 const accuracyDisplay = document.getElementById("accuracy");
 
+const finalScore = document.getElementById("final-score");
+const finalMisses = document.getElementById("final-misses");
+const finalAccuracy = document.getElementById("final-accuracy");
+
+const usernameInput = document.getElementById("username");
+
+const historyList = document.getElementById("history-list");
+
 const views = [homeView, configView, gameView, resultsView, historyView];
 
 
 function showView(view) {
     views.forEach(currentPage => {
-        currentPage.classList.remove("active")
+        currentPage.classList.remove("active");
     });
 
     view.classList.add("active");
 };
 
-startButton.addEventListener('click', () => {
+
+startButton.addEventListener("click", () => {
     showView(configView);
-})
-playButton.addEventListener('click', () => {
+});
+
+playButton.addEventListener("click", () => {
+    username = usernameInput.value.trim();
+
+     if (username.length < 2 || username.length > 20) {
+        alert("Username must be between 2 and 20 characters.");
+        return;
+    }
+
+    saveSettings();
+
     showView(gameView);
-})
-historyButton.addEventListener('click', () => {
+    startGame();
+});
+
+historyButton.addEventListener("click", () => {
     showView(historyView);
-})
-backHomeButton.addEventListener('click', () => {
+    showHistory();
+});
+
+backHomeButton.addEventListener("click", () => {
     showView(homeView);
-})
-replayButton.addEventListener('click', () => {
+});
+
+replayButton.addEventListener("click", () => {
     showView(gameView);
-})
-homeButton.addEventListener('click', () => {
+    startGame();
+});
+
+homeButton.addEventListener("click", () => {
     showView(homeView);
-})
-historyHomeButton.addEventListener('click', () => {
+});
+
+historyHomeButton.addEventListener("click", () => {
     showView(homeView);
-})
+});
+
 
 let selectedMode = "classic";
 
@@ -69,6 +98,7 @@ modeButtons.forEach((button) => {
     });
 });
 
+
 let selectedDuration = "10";
 
 const durationButtons = document.querySelectorAll("[data-duration]");
@@ -84,6 +114,7 @@ durationButtons.forEach((button) => {
         button.classList.add("active");
     });
 });
+
 
 let selectedDifficulty = "medium";
 
@@ -101,22 +132,216 @@ difficultyButtons.forEach((button) => {
     });
 });
 
+
 let score = 0;
 let misses = 0;
-let timeLeft = 0;
+let timeLeft = selectedDuration;
+let username = "";
+
+let timer;
+let challengeTimer;
+
 
 function startGame() {
     score = 0;
     misses = 0;
+
+    clearInterval(timer);
+    clearTimeout(challengeTimer);
+
     timeLeft = Number(selectedDuration);
 
     scoreDisplay.textContent = score;
-    timeDisplay.textContent = timeLeft;
     missesDisplay.textContent = misses;
+    timeDisplay.textContent = timeLeft;
     accuracyDisplay.textContent = "100%";
+
+    setTargetSize();
+    moveTarget();
+
+    timer = setInterval(() => {
+        timeLeft--;
+
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            clearTimeout(challengeTimer);
+            endGame();
+        }
+    }, 1000);
+
+    if (selectedMode === "challenge") {
+        startChallengeTimer();
+    }
 }
+
+function saveSettings() {
+    const settings = {
+        pseudo: username,
+        mode: selectedMode,
+        duration: selectedDuration,
+        difficulty: selectedDifficulty
+    };
+
+    localStorage.setItem("clickFast.settings", JSON.stringify(settings));
+}
+function getRecordKey() {
+    return `${selectedMode}_${selectedDifficulty}_${selectedDuration}`;
+}
+
+function saveRecord() {
+    const records = JSON.parse(localStorage.getItem("clickFast.records")) || {};
+
+    const key = getRecordKey();
+
+    if (!records[key] || score > records[key]) {
+        records[key] = score;
+        localStorage.setItem("clickFast.records", JSON.stringify(records));
+        return true;
+    }
+
+    return false;
+}
+
+function endGame() {
+    showView(resultsView);
+
+    finalScore.textContent = score;
+    saveRecord();
+    finalMisses.textContent = misses;
+    finalAccuracy.textContent = calculateAccuracy();
+
+
+    saveHistory();
+}
+
+
+function calculateAccuracy() {
+    const totalClicks = score + misses;
+
+    if (totalClicks === 0) {
+        return "100%";
+    }
+
+    const accuracy = (score / totalClicks) * 100;
+
+    return Math.round(accuracy) + "%";
+}
+
+
+function setTargetSize() {
+    let targetSize;
+
+    if (selectedDifficulty === "easy") {
+        targetSize = 80;
+    } else if (selectedDifficulty === "medium") {
+        targetSize = 60;
+    } else {
+        targetSize = 40;
+    }
+
+    target.style.width = `${targetSize}px`;
+    target.style.height = `${targetSize}px`;
+}
+
+
 function moveTarget() {
     const areaWidth = gameArea.clientWidth;
     const areaHeight = gameArea.clientHeight;
-    const targetSize = 60;
+
+    const targetSize = target.offsetWidth;
+
+    const randomX = Math.random() * (areaWidth - targetSize);
+    const randomY = Math.random() * (areaHeight - targetSize);
+
+    target.style.left = `${randomX}px`;
+    target.style.top = `${randomY}px`;
 }
+
+
+target.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    score++;
+
+    scoreDisplay.textContent = score;
+    accuracyDisplay.textContent = calculateAccuracy();
+
+    moveTarget();
+
+    if (selectedMode === "challenge") {
+        startChallengeTimer();
+    }
+});
+
+
+gameArea.addEventListener("click", () => {
+
+    if (selectedMode === "precision") {
+        misses++;
+
+        missesDisplay.textContent = misses;
+        accuracyDisplay.textContent = calculateAccuracy();
+    }
+
+});
+
+
+function startChallengeTimer() {
+    clearTimeout(challengeTimer);
+
+    challengeTimer = setTimeout(() => {
+        moveTarget();
+        startChallengeTimer();
+    }, 1000);
+}
+
+
+function saveHistory() {
+    const history = JSON.parse(localStorage.getItem("clickFast.history")) || [];
+
+    const game = {
+        score: score,
+        misses: misses,
+        accuracy: calculateAccuracy(),
+        mode: selectedMode,
+        difficulty: selectedDifficulty,
+        duration: selectedDuration
+    };
+
+    history.unshift(game);
+
+    if (history.length > 20) {
+        history.pop();
+    }
+
+    localStorage.setItem("clickFast.history", JSON.stringify(history));
+}
+
+
+function showHistory() {
+    const history = JSON.parse(localStorage.getItem("clickFast.history")) || [];
+
+    historyList.innerHTML = "";
+
+    if (history.length === 0) {
+        historyList.textContent = "No games played yet.";
+        return;
+    }
+
+    history.forEach(game => {
+        const item = document.createElement("p");
+
+        item.textContent =
+            `${game.mode} | ${game.difficulty} | ${game.duration}s | Score: ${game.score} | Misses: ${game.misses} | Accuracy: ${game.accuracy}`;
+
+        historyList.appendChild(item);
+    });
+}
+
+
+clearHistoryButton.addEventListener("click", () => {
+    localStorage.removeItem("clickFast.history");
+    showHistory();
+});
